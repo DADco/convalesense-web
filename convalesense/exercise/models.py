@@ -14,23 +14,35 @@ class BaseModel(models.Model):
         ordering = ('-updated_at', '-created_at',)
 
 
-class Exercise(BaseModel):
+class AbstractExercise(BaseModel):
+    number_of_reps = models.PositiveSmallIntegerField(blank=True, null=True)
+    number_of_reps.help_text = 'How many times to do this'
+    distance = models.FloatField(blank=True, null=True)
+    distance.help_text = 'Through distance in meters'
+    duration = models.PositiveSmallIntegerField(blank=True, null=True)
+    duration.help_text = 'Time in seconds for this exercise'
+    score = models.PositiveSmallIntegerField(blank=True, null=True)
+    score.help_text = 'Score for this exercise per rep'
+    weight = models.FloatField(blank=True, null=True)
+    weight.help_text = 'Weight of object in kilograms'
+
+    class Meta:
+        abstract = True
+
+
+class Exercise(AbstractExercise):
     EXERCISE_TYPES = (
         ('t', 'Duration'),
         ('d', 'Distance'),
     )
 
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
     type_of_exercise = models.CharField(choices=EXERCISE_TYPES, max_length=1)
     type_of_exercise.help_text = 'Particular game type - this determines what is presented back to the users app'
-    number_of_reps = models.PositiveSmallIntegerField(default=1)
-    number_of_reps.help_text = 'How many times to do this exercise'
-    distance = models.FloatField(blank=True, null=True)
-    distance.help_text = 'Through distance in cm'
-    duration = models.PositiveSmallIntegerField(blank=True, null=True)
-    duration.help_text = 'Time in seconds for this exercise'
-    score = models.PositiveSmallIntegerField(blank=True, null=True)
-    score.help_text = 'Score for this exercise per rep'
+
+    def __unicode__(self):
+        return self.name
 
 
 class Plan(BaseModel):
@@ -48,11 +60,20 @@ class Plan(BaseModel):
     end = models.DateTimeField(blank=True, null=True)
     end.help_text = 'When this treatment plan ends, if at all'
 
+    @property
+    def exercise_count(self):
+        return self.exercises.count()
 
-class PlanExercise(BaseModel):
+    def __unicode__(self):
+        return 'Plan {:3d} ({}) for {} by {}'.format(self.id, self.name, self.patient, self.therapist)
+
+
+class PlanExercise(AbstractExercise):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     order = models.PositiveSmallIntegerField(blank=True, null=True)
+    count = models.PositiveSmallIntegerField(default=1)
+    count.help_text = 'How many times this exercise should be done per day'
     optional = models.BooleanField(default=False)
     optional.help_text = 'Whether or not this exercise is a required part of the plan'
 

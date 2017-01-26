@@ -1,0 +1,12 @@
+{% extends "rest_framework/base.html" %}
+{% load static %}
+
+{% block bootstrap_theme %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" type="text/css">
+{% endblock %}
+
+{% block branding %}
+<a class="navbar-brand" href="/">convalesense by</a>
+<img src="https://d1l3g5qiihq6pf.cloudfront.net/wp-content/themes/dadv2/images/dad-logo@2x.png" id="dad_logo_api" />
+{% endblock %}

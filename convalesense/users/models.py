@@ -18,12 +18,12 @@ class User(AbstractUser):
         ('t', 'Therapist'),
     )
 
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
-    name = models.CharField(_('Name of User'), blank=True, max_length=255)
     type = models.CharField(max_length=1, default='p', choices=USER_TYPE_CHOICES)
 
     def __str__(self):
+        if self.get_full_name():
+            return self.get_full_name()
+
         return self.username
 
     def get_absolute_url(self):

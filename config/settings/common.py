@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'rest_framework',
+    'django_summernote',
 )
 
 # Apps specific for this project go here.
@@ -256,10 +257,9 @@ ADMIN_URL = r'^admin/'
 # ------------------------------------------------------------------------------
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    # Let's not bother dealing with auth or anything fancy!
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny'
     ]
 }
 
