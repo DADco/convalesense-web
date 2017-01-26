@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load chartit %}
+
+{% block extrascript %}
+  {{ chart|load_charts:"container" }}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <h1 class="col-md-10"><span class="muted">Plan:</span> {{ object.name }}</h1>
+
+  <a class="col-md-1 push-md-1 btn btn-primary" target="_blank" href="{% url 'admin:exercise_plan_change' object.id %}">Edit</a>
+
+  <hr>
+
+  <h2 class="col-md-6"><span class="muted">Created by:</span> {{ object.therapist }}</h2>
+  <h2 class="col-md-6"><span class="muted">For patient:</span> {{ object.patient }}</h2>
+</div>
+
+<hr>
+
+<div class="col-md-12">
+  <div id="container">Chart</div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-12">
+    <p>This treatment plan consists of {{ object.exercises.count }} exercises.</p>
+  </div>
+
+  {% for exercise in object.planexercise_set.all %}
+    <div class="col-md-6">
+      <h3>{{ exercise.name }}</h3>
+      <p>Recorded progress for this exercise is listed below.</p>
+      <ul>
+        {% for record in exercise.exerciserecord_set.all %}
+          <li>{{ record.count }} in {{ record.completed_time }} on {{ record.start|date }}</li>
+        {% empty %}
+          <li>Nothing yet!</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+
+</div>
+
+{% endblock %}

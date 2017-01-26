@@ -84,6 +84,10 @@ class PlanExercise(AbstractExercise):
     optional = models.BooleanField(default=False)
     optional.help_text = 'Whether or not this exercise is a required part of the plan for completeness'
 
+    @property
+    def name(self):
+        return self.exercise.name
+
     class Meta:
         ordering = ('order', 'exercise__name')
 
@@ -96,3 +100,13 @@ class ExerciseRecord(BaseModel):
     count = models.PositiveSmallIntegerField()
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    @property
+    def completed_time(self):
+        return self.end - self.start
+
+    def __unicode__(self):
+        return '{} - {} in {} on {}'.format(self.exercise, self.count, self.completed_time, self.start)
+
+    class Meta:
+        unique_together = ('exercise', 'start')

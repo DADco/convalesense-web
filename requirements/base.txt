@@ -44,3 +44,4 @@ djangorestframework
 django-filter
 markdown
 django-summernote
+django_chartit

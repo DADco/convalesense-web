@@ -8,6 +8,8 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
+from convalesense.exercise.views import PlanDetailView
+
 
 admin.site.site_header = 'Convalesense Backend'
 
@@ -24,6 +26,8 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
+    url(r'^plans/(?P<pk>\d+)/$', PlanDetailView.as_view(), name='plans-detail'),
+
     url(r'^api/', include('convalesense.exercise.urls', namespace='api')),
     url(r'^summernote/', include('django_summernote.urls')),
 

@@ -97,10 +97,34 @@ class PlanSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Plan
         fields = ('id', 'url', 'name', 'description', 'start', 'end',
-                  'therapist', 'patient', 'exercises', )
+                  'therapist', 'patient', 'exercises')
 
 
 class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
+
+
+class ExerciseRecordSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api:exerciserecord-detail')
+    exercise_id = serializers.PrimaryKeyRelatedField(source='exercise', queryset=PlanExercise.objects.all())
+
+    class Meta:
+        model = ExerciseRecord
+        fields = ('url', 'created_at', 'id', 'count', 'start', 'end', 'exercise_id')
+
+    def create(self, validated_data):
+        record = ExerciseRecord.objects.create(
+            exercise=validated_data['exercise'],
+            start=validated_data['start'],
+            end=validated_data['end'],
+            count=validated_data['count']
+        )
+
+        return record
+
+
+class ExerciseRecordViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseRecord.objects.all()
+    serializer_class = ExerciseRecordSerializer
 

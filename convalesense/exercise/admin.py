@@ -10,6 +10,10 @@ class BaseAdmin(SummernoteModelAdmin):
     list_display = ('id', 'created_at')
 
 
+class PlanExerciseAdmin(BaseAdmin):
+    pass
+
+
 class PlanExerciseInline(admin.StackedInline):
     model = PlanExercise
     fieldsets = (
@@ -57,4 +61,5 @@ class ExerciseRecordAdmin(BaseAdmin):
 
 admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(Plan, PlanAdmin)
+admin.site.register(PlanExercise, PlanExerciseAdmin)
 admin.site.register(ExerciseRecord, ExerciseRecordAdmin)
