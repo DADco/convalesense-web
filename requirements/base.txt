@@ -45,3 +45,4 @@ django-filter
 markdown
 django-summernote
 django_chartit
+django-material
