@@ -71,6 +71,7 @@ class Plan(BaseModel):
 class PlanExercise(AbstractExercise):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    additional_description = models.TextField(blank=True, null=True)
     order = models.PositiveSmallIntegerField(blank=True, null=True)
     count = models.PositiveSmallIntegerField(default=1)
     count.help_text = 'How many times this exercise should be done per day'

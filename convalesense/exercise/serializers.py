@@ -39,6 +39,7 @@ class ExerciseViewSet(viewsets.ModelViewSet):
 
 
 class PlanExerciseSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api:planexercise-detail')
     name = serializers.ReadOnlyField(source='exercise.name')
     score = serializers.ReadOnlyField(source='exercise.score')
     type = serializers.SerializerMethodField()
@@ -46,11 +47,12 @@ class PlanExerciseSerializer(serializers.HyperlinkedModelSerializer):
     duration = serializers.SerializerMethodField()
     distance = serializers.SerializerMethodField()
     repetitions = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
 
     class Meta:
         model = PlanExercise
-        fields = ('id', 'order', 'count', 'name', 'type', 'score',
-                  'distance', 'repetitions', 'weight', 'duration')
+        fields = ('id', 'url', 'order', 'count', 'name', 'type', 'score',
+                  'distance', 'repetitions', 'weight', 'duration', 'description')
 
     def get_type(self, obj):
         return obj.exercise.get_type_of_exercise_display().lower()
@@ -74,6 +76,16 @@ class PlanExerciseSerializer(serializers.HyperlinkedModelSerializer):
         if obj.number_of_reps:
             return obj.number_of_reps
         return obj.exercise.number_of_reps
+
+    def get_description(self, obj):
+        if obj.additional_description:
+            return '{}\n{}'.format(obj.exercise.description, obj.additional_description)
+        return obj.exercise.description
+
+
+class PlanExerciseViewSet(viewsets.ModelViewSet):
+    queryset = PlanExercise.objects.all()
+    serializer_class = PlanExerciseSerializer
 
 
 class PlanSerializer(serializers.HyperlinkedModelSerializer):

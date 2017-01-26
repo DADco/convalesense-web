@@ -10,7 +10,7 @@ class BaseAdmin(SummernoteModelAdmin):
     list_display = ('id', 'created_at')
 
 
-class PlanExerciseInline(admin.TabularInline):
+class PlanExerciseInline(admin.StackedInline):
     model = PlanExercise
 
 
