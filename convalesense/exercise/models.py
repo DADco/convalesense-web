@@ -15,14 +15,14 @@ class BaseModel(models.Model):
 
 
 class Exercise(BaseModel):
-    GAME_TYPES = (
+    EXERCISE_TYPES = (
         ('t', 'Duration'),
         ('d', 'Distance'),
     )
 
     name = models.CharField(max_length=100)
-    type_of_game = models.CharField(choices=GAME_TYPES, max_length=1)
-    type_of_game.help_text = 'Particular game type - this determines what is presented back to the users app'
+    type_of_exercise = models.CharField(choices=EXERCISE_TYPES, max_length=1)
+    type_of_exercise.help_text = 'Particular game type - this determines what is presented back to the users app'
     number_of_reps = models.PositiveSmallIntegerField(default=1)
     number_of_reps.help_text = 'How many times to do this exercise'
     distance = models.FloatField(blank=True, null=True)
@@ -37,6 +37,7 @@ class Plan(BaseModel):
     patient = models.ForeignKey(User, related_name='patient')
     therapist = models.ForeignKey(User, related_name='therapist')
     exercises = models.ManyToManyField(Exercise, through='PlanExercise', through_fields=('plan', 'exercise'))
+    name = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     description.help_text = 'What this plan aims to achieve for the patient'
     exercises.help_text = 'A plan is composed of multiple exercises which may be in order'

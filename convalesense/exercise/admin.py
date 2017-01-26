@@ -9,11 +9,11 @@ class BaseAdmin(admin.ModelAdmin):
 
 
 class ExerciseAdmin(BaseAdmin):
-    list_display = BaseAdmin.list_display + ('name', 'type_of_game')
-    list_filter = ('type_of_game', )
+    list_display = BaseAdmin.list_display + ('name', 'type_of_exercise')
+    list_filter = ('type_of_exercise', )
     fieldsets = (
         (None, {
-            'fields': ('name', 'type_of_game')
+            'fields': ('name', 'type_of_exercise')
         }),
         ('Common', {
             'fields': ('number_of_reps', 'score',),
