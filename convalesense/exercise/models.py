@@ -47,9 +47,12 @@ class Exercise(AbstractExercise):
 
 class Plan(BaseModel):
     patient = models.ForeignKey(User, related_name='patient')
+    patient.help_text = 'Choose who this plan is for'
     therapist = models.ForeignKey(User, related_name='therapist')
+    therapist.help_text = 'Choose a therapist overseeing this treatment plan'
     exercises = models.ManyToManyField(Exercise, through='PlanExercise', through_fields=('plan', 'exercise'))
     name = models.CharField(max_length=100, null=True, blank=True)
+    name.help_text = 'Name of this plan as displayed to the patient'
     description = models.TextField(blank=True, null=True)
     description.help_text = 'What this plan aims to achieve for the patient'
     exercises.help_text = 'A plan is composed of multiple exercises which may be in order'
@@ -71,18 +74,25 @@ class Plan(BaseModel):
 class PlanExercise(AbstractExercise):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    exercise.help_text = 'Select an exercise to use as a basis for this plan'
     additional_description = models.TextField(blank=True, null=True)
+    additional_description.help_text = 'Add any patient specific information for this exercise. It will be appended to the instructions'
     order = models.PositiveSmallIntegerField(blank=True, null=True)
+    order.help_text = 'You can use this to customize the order this exercise appears in the plan'
     count = models.PositiveSmallIntegerField(default=1)
     count.help_text = 'How many times this exercise should be done per day'
     optional = models.BooleanField(default=False)
-    optional.help_text = 'Whether or not this exercise is a required part of the plan'
+    optional.help_text = 'Whether or not this exercise is a required part of the plan for completeness'
 
     class Meta:
         ordering = ('order', 'exercise__name')
 
+    def __unicode__(self):
+        return unicode(self.exercise)
 
-class UserSession(BaseModel):
-    plan = models.ForeignKey(Plan)
 
-
+class ExerciseRecord(BaseModel):
+    exercise = models.ForeignKey(PlanExercise)
+    count = models.PositiveSmallIntegerField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()

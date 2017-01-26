@@ -1,5 +1,5 @@
 from rest_framework import routers, serializers, viewsets
-from .models import Exercise, Plan, PlanExercise, UserSession
+from .models import Exercise, Plan, PlanExercise, ExerciseRecord
 from ..users.models import User
 
 

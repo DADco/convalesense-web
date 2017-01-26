@@ -3,7 +3,7 @@ from django_summernote.admin import SummernoteModelAdmin
 
 
 # Register your models here.
-from .models import Exercise, Plan, UserSession, PlanExercise
+from .models import Exercise, Plan, PlanExercise, ExerciseRecord
 
 
 class BaseAdmin(SummernoteModelAdmin):
@@ -12,6 +12,17 @@ class BaseAdmin(SummernoteModelAdmin):
 
 class PlanExerciseInline(admin.StackedInline):
     model = PlanExercise
+    fieldsets = (
+        (None, {
+            'fields': ('exercise', 'order', 'count')
+        }),
+        ('Extra information for the patient', {
+            'fields': ('additional_description', )
+        }),
+        ('Customization of this exercise', {
+            'fields': ('number_of_reps', 'distance',  'duration', 'score', 'weight'),
+        }),
+    )
 
 
 class ExerciseAdmin(BaseAdmin):
@@ -40,10 +51,10 @@ class PlanAdmin(BaseAdmin):
     inlines = [PlanExerciseInline, ]
 
 
-class UserSessionAdmin(BaseAdmin):
+class ExerciseRecordAdmin(BaseAdmin):
     pass
 
 
 admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(Plan, PlanAdmin)
-admin.site.register(UserSession, UserSessionAdmin)
+admin.site.register(ExerciseRecord, ExerciseRecordAdmin)
