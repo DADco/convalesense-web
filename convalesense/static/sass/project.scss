@@ -10,9 +10,10 @@
 $white: #fff;
 $mint-green: #d6e9c6;
 $black: #000;
-$pink: #f2dede;
+$pink: #ef6962;
 $dark-pink: #eed3d7;
 $red: #b94a48;
+$dad-blue: #101125;
 
 ////////////////////////////////
 		//Alerts//
@@ -72,7 +73,7 @@ $red: #b94a48;
 }
 
 .bg-inverse {
-  background-color: #101125 !important;
+  background-color: $pink !important;
 }
 
 
@@ -94,7 +95,48 @@ $red: #b94a48;
   border: none;
 }
 
+#convalesense_logo {
+  height: 30px;
+  float: left;
+  margin: 5px 15px 5px 5px;
+}
 
 .muted {
   color: #AAA;
 }
+
+html {
+  height: 100%;
+}
+
+body {
+  background-image: url(../images/citybg.jpg);
+  background-size: auto 100%;
+  background-repeat: repeat-y;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: #fff;
+  height: 100%;
+}
+
+body.home {
+  background-image: url(../images/app-icon.jpg);
+  background-color: $pink;
+}
+
+
+.btn-primary {
+  background-color: $pink !important;
+  border-color: darken($pink, 10%) !important;
+}
+
+
+a, a:hover, a:visited {
+  color: darken($pink, 33%) !important;
+}
+
+
+text > tspan:nth-child(1) {
+    display: none;
+}
+

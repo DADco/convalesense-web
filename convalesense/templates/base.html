@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}convalesense{% endblock title %}</title>
+    <title>{% block title %}Convalesense by DAD.co{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -27,13 +27,12 @@
     {% block extrahead %}{% endblock %}
   </head>
 
-  <body>
+  <body class="{% block body_class %}{% endblock %}">
 
     <div class="m-b-1">
       <nav class="navbar navbar-dark navbar-static-top bg-inverse">
         <div class="container">
-          <a class="navbar-brand" href="/">convalesense by</a>
-           <img src="https://d1l3g5qiihq6pf.cloudfront.net/wp-content/themes/dadv2/images/dad-logo@2x.png" id="dad_logo" />
+          <a href="{% url 'home' %}"><img src="{% static 'images/app-icon.jpg' %}" id="convalesense_logo" /></a>
           <button type="button" class="navbar-toggler hidden-sm-up pull-xs-right" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
             &#9776;
           </button>
@@ -48,6 +47,9 @@
                 <a class="nav-link" href="{% url 'about' %}">About</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="{% url 'plans-list' %}">Plans</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="{% url 'api:api-root' %}">API</a>
               </li>
               <li class="nav-item">
@@ -57,6 +59,9 @@
 
             <ul class="nav navbar-nav pull-xs-right">
               {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link"><em class="small">(Logged in as {{ request.user.username }})</em></a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
                 </li>
@@ -71,6 +76,9 @@
                   <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
                 </li>
               {% endif %}
+                <li class="nav-item">
+                  <a href="https://dad.co/"><img src="https://d1l3g5qiihq6pf.cloudfront.net/wp-content/themes/dadv2/images/dad-logo@2x.png" id="dad_logo" /></a>
+                </li>
             </ul>
           </div>
         </div>

@@ -1,7 +1,11 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from chartit import DataPool, Chart
 
-from .models import Plan, ExerciseRecord
+from .models import Plan, ExerciseRecord, Exercise, PlanExercise
+
+
+class PlanListView(ListView):
+    model = Plan
 
 
 class PlanDetailView(DetailView):
@@ -10,33 +14,47 @@ class PlanDetailView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(PlanDetailView, self).get_context_data(**kwargs)
 
-        exercise_records = \
-            DataPool(
-               series=
-                [{'options': {
-                   'source': ExerciseRecord.objects.all()},
-                  'terms': [
-                    'start',
-                    'count']}
-                 ])
+        exercises = self.get_object().planexercise_set.all()
+        if exercises.count() == 0:
+            return ctx
+
+        data_series = []
+        for plan_exercise in exercises:
+            data_series.append({
+                    'options': {
+                        'source': ExerciseRecord.objects.filter(exercise=plan_exercise)
+                    },
+                    'terms': [
+                        {'start_{}'.format(plan_exercise.pk): 'natural_date'},
+                        {'{}'.format(plan_exercise.name): 'count'},
+                    ]
+                })
+
+        data_pool = DataPool(series=data_series)
+
+        chart_terms = {}
+        for series in data_series:
+            # Super brittle!
+            key = series['terms'][0].keys()[0]
+            val = series['terms'][1].keys()[0]
+            chart_terms.update({ key: [val]})
 
         chart = Chart(
-                datasource = exercise_records,
-                series_options =
-                  [{'options':{
-                      'type': 'line',
-                      'stacking': False},
-                    'terms':{
-                      'start': [
-                        'count']
-                      }}],
-                chart_options =
-                  {'title': {
-                       'text': 'Patient progress over time'},
-                   'xAxis': {
-                        'title': {
-                           'text': 'Date'}}})
+                datasource = data_pool,
+                series_options = [
+                    {
+                        'options': {
+                            'type': 'column',
+                            'stacking': True
+                        },
+                        'terms': chart_terms,
+                    }
+                ],
+                chart_options = {
+                    'title': {'text': 'Patient progress over time'},
+                    'xAxis': {'title': {'text': 'Date'}, 'type': 'datetime', 'dateTimeLabelFormats': {'day': '%b %e'}},
+                }
+            )
 
         ctx.update({'chart': chart})
         return ctx
-

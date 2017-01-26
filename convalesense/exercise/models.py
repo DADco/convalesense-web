@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils.html import mark_safe
+from django.template.defaultfilters import date as date_fmt
+
 
 from ..users.models import User
 
@@ -38,6 +41,8 @@ class Exercise(AbstractExercise):
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    steps = models.TextField(blank=True, null=True)
+    steps.help_text = 'If you would like to add a step by step guide for this exercise list it here'
     type_of_exercise = models.CharField(choices=EXERCISE_TYPES, max_length=1)
     type_of_exercise.help_text = 'Particular game type - this determines what is presented back to the users app'
 
@@ -64,6 +69,10 @@ class Plan(BaseModel):
     end.help_text = 'When this treatment plan ends, if at all'
 
     @property
+    def record_count(self):
+        return sum([ex.exerciserecord_set.count() for ex in self.planexercise_set.all()])
+
+    @property
     def exercise_count(self):
         return self.exercises.count()
 
@@ -88,6 +97,12 @@ class PlanExercise(AbstractExercise):
     def name(self):
         return self.exercise.name
 
+    @property
+    def guidelines(self):
+        reps = self.number_of_reps if self.number_of_reps else self.exercise.number_of_reps
+        optional_label = 'optional' if self.optional else 'required'
+        return mark_safe('{} per day with {} reps. This exercise is <u>{}</u>.'.format(self.count, reps, optional_label))
+
     class Meta:
         ordering = ('order', 'exercise__name')
 
@@ -102,6 +117,12 @@ class ExerciseRecord(BaseModel):
     end = models.DateTimeField()
 
     @property
+    def natural_date(self):
+        return '<span>{}</span><span>{}</span>'.format(
+            self.start.date(),
+            date_fmt(self.start, 'm F jS'))
+
+    @property
     def completed_time(self):
         return self.end - self.start
 
@@ -110,3 +131,5 @@ class ExerciseRecord(BaseModel):
 
     class Meta:
         unique_together = ('exercise', 'start')
+        ordering = ('start', 'end')
+

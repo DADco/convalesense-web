@@ -2,46 +2,96 @@
 {% load chartit %}
 
 {% block extrascript %}
-  {{ chart|load_charts:"container" }}
+  {% if chart %}
+    {{ chart|load_charts:"container" }}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
 
 <div class="row">
-  <h1 class="col-md-10"><span class="muted">Plan:</span> {{ object.name }}</h1>
-
+  <h1 class="col-md-10"><span class="muted">Plan:</span> #{{ object.pk|stringformat:"03d" }} <em>{{ object.name }}</em></h1>
   <a class="col-md-1 push-md-1 btn btn-primary" target="_blank" href="{% url 'admin:exercise_plan_change' object.id %}">Edit</a>
-
-  <hr>
-
-  <h2 class="col-md-6"><span class="muted">Created by:</span> {{ object.therapist }}</h2>
-  <h2 class="col-md-6"><span class="muted">For patient:</span> {{ object.patient }}</h2>
-</div>
-
-<hr>
-
-<div class="col-md-12">
-  <div id="container">Chart</div>
 </div>
 
 <hr>
 
 <div class="row">
+  <h2 class="col-md-6"><span class="muted">Created by:</span> {{ object.therapist }}</h2>
+  <h2 class="col-md-6 text-xs-right"><span class="muted">For patient:</span> {{ object.patient }}</h2>
   <div class="col-md-12">
+    <p class="lead">{{ object.description }}</p>
+  </div>
+</div>
+
+<hr>
+
+{% if chart %}
+  <div class="col-md-12">
+    <div id="container">Chart</div>
+  </div>
+
+  <hr>
+{% endif %}
+
+<div class="row">
+  <div class="col-md-12">
+  {% if object.exercises.count %}
     <p>This treatment plan consists of {{ object.exercises.count }} exercises.</p>
+  {% else %}
+    <p>This treatment plan does not yet have any exercises!</p>
+  {% endif %}
   </div>
 
   {% for exercise in object.planexercise_set.all %}
     <div class="col-md-6">
-      <h3>{{ exercise.name }}</h3>
+      <h3>{{ exercise.order }}: {{ exercise.name }}</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Guidelines</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ exercise.exercise.get_type_of_exercise_display }}</td>
+            <td>{{ exercise.guidelines }}</td>
+          </tr>
+        </tbody>
+      </table>
       <p>Recorded progress for this exercise is listed below.</p>
-      <ul>
-        {% for record in exercise.exerciserecord_set.all %}
-          <li>{{ record.count }} in {{ record.completed_time }} on {{ record.start|date }}</li>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Duration</th>
+            <th>Count</th>
+            <th>Sessions</th>
+        </thead>
+        <tbody>
+        {% regroup exercise.exerciserecord_set.all by start.date as records %}
+        {% for group in records %}
+          <tr>
+            <td colspan="4" class="text-xs-center">{{ group.grouper }}</td>
+          </tr>
+
+          {% for record in group.list %}
+          <tr>
+            <td>{{ record.start|date:'h:m:s ' }}</td>
+            <td>{{ record.completed_time }}</td>
+            <td>{{ record.count }}</td>
+            <td>{{ record.count }}</td>
+          </tr>
+          {% endfor %}
+
         {% empty %}
-          <li>Nothing yet!</li>
+          <td colspan="4">Nothing yet!</td>
         {% endfor %}
-      </ul>
+        </tbody>
+      </table>
+
     </div>
   {% endfor %}
 

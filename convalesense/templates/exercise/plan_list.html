@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+
+  <div class="col-md-12">
+    <h1>Treatment plans</h1>
+
+    <p class="lead">
+      All treatment plans for all patients show here. The <em>records</em> count refers to the individual data that has been submitted by the apps when used by the patient. If you would like to edit any treatment plan click through and then click <em>edit</em>.
+    </p>
+    <p>
+       All plans have a start and end date but patients may have more than one plan at any one time. Each plan consists of a number of (possibly customized) exercises. You can add new ones <a href="{% url 'admin:exercise_plan_add' %}">here</a>.
+    </p>
+  </div>
+
+  <div class="col-md-12">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Therapist</th>
+          <th>Patient</th>
+          <th>Records</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for plan in object_list %}
+        <tr>
+          <td><a href="{% url 'plans-detail' plan.id %}">{{ plan.id|stringformat:"03d" }}</a></td>
+          <td>{{ plan.name }}</td>
+          <td>{{ plan.status }}</td>
+          <td>{{ plan.therapist }}</td>
+          <td>{{ plan.patient }}</td>
+          <td><span class="btn {% if plan.record_count == 0 %}btn-danger{% else %}btn-success{% endif%}">{{ plan.record_count }}</span></td>
+          <td width="30%"><p class="small">{% if plan.description %}{{ plan.description|truncatechars:150 }}{% else %}N/A{% endif %}</p></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+{% endblock %}

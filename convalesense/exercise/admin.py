@@ -35,7 +35,10 @@ class ExerciseAdmin(BaseAdmin):
     list_display_links = ('id', 'name')
     fieldsets = (
         (None, {
-            'fields': ('name', 'type_of_exercise', 'description')
+            'fields': ('name', 'type_of_exercise')
+        }),
+        ('Guidance', {
+            'fields': ('description', 'steps'),
         }),
         ('Common', {
             'fields': ('number_of_reps', 'weight', 'score',),
