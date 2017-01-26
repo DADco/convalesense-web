@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}{% endblock %}
 {% block body_class %}home{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12 text-xs-center">
+    <img class="home-logo" src="{% static 'images/app-icon.png' %}" />
+  </div>
+</div>
+{% endblock %}
+

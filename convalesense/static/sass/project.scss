@@ -110,29 +110,28 @@ html {
 }
 
 body {
-  background-image: url(../images/citybg.jpg);
-  background-size: auto 100%;
-  background-repeat: repeat-y;
-  background-position: center;
-  background-attachment: fixed;
-  background-color: #fff;
+  background-image: url(../images/splash.png);
+  background-repeat: repeat;
+  background-size: auto;
   height: 100%;
+  background-color: white;
+
+  &.home {
+    background-color: $pink;
+  }
+
 }
 
-body.home {
-  background-image: url(../images/app-icon.jpg);
-  background-color: $pink;
-}
 
 
 .btn-primary {
-  background-color: $pink !important;
-  border-color: darken($pink, 10%) !important;
+  background-color: $pink;
+  border-color: darken($pink, 10%);
 }
 
 
 a, a:hover, a:visited {
-  color: darken($pink, 33%) !important;
+  color: darken($pink, 33%);
 }
 
 
@@ -140,3 +139,15 @@ text > tspan:nth-child(1) {
     display: none;
 }
 
+
+.home-logo {
+  width: 60%;
+}
+
+.exercise-report {
+  margin-top: 2em;
+}
+
+h2 a.btn-success {
+  color: white;
+}

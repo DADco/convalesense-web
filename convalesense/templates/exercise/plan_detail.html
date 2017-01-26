@@ -27,22 +27,27 @@
 <hr>
 
 {% if chart %}
+<div class="row">
   <div class="col-md-12">
     <div id="container">Chart</div>
   </div>
+</div>
 
-  <hr>
+<hr>
 {% endif %}
 
 <div class="row">
   <div class="col-md-12">
   {% if object.exercises.count %}
-    <p>This treatment plan consists of {{ object.exercises.count }} exercises.</p>
+    <h2>This treatment plan consists of {{ object.exercises.count }} exercises.</h2>
   {% else %}
-    <p>This treatment plan does not yet have any exercises!</p>
+    <h2>This treatment plan does not yet have any exercises!</h2>
   {% endif %}
   </div>
+</div>
 
+
+<div class="row exercise-report">
   {% for exercise in object.planexercise_set.all %}
     <div class="col-md-6">
       <h3>{{ exercise.order }}: {{ exercise.name }}</h3>
@@ -60,21 +65,20 @@
           </tr>
         </tbody>
       </table>
-      <p>Recorded progress for this exercise is listed below.</p>
 
       <table class="table">
         <thead>
           <tr>
-            <th>When</th>
-            <th>Duration</th>
-            <th>Count</th>
-            <th>Sessions</th>
+            <th width="25%">When</th>
+            <th width="25%">Duration</th>
+            <th width="25%">Count</th>
+            <th width="25%">Target</th>
         </thead>
         <tbody>
         {% regroup exercise.exerciserecord_set.all by start.date as records %}
         {% for group in records %}
           <tr>
-            <td colspan="4" class="text-xs-center">{{ group.grouper }}</td>
+            <td colspan="4" class="text-xs-center alert {% if exercise.count > group.list|length %}alert-danger{% else %}alert-success{% endif %}">{{ group.grouper }}</td>
           </tr>
 
           {% for record in group.list %}
@@ -82,7 +86,11 @@
             <td>{{ record.start|date:'h:m:s ' }}</td>
             <td>{{ record.completed_time }}</td>
             <td>{{ record.count }}</td>
-            <td>{{ record.count }}</td>
+            <td>
+              <span class="btn {% if record.percentage >= 80 %}btn-success{% elif record.percentage >= 50 %}btn-warning{% else %}btn-danger{% endif%}">
+                {{ record.percentage|stringformat:"0d" }}%
+              </span>
+            </td>
           </tr>
           {% endfor %}
 

@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+from __future__ import unicode_literals, division
 
 from django.db import models
 from django.utils.html import mark_safe
@@ -98,10 +98,13 @@ class PlanExercise(AbstractExercise):
         return self.exercise.name
 
     @property
+    def reps(self):
+        return self.number_of_reps if self.number_of_reps else self.exercise.number_of_reps
+
+    @property
     def guidelines(self):
-        reps = self.number_of_reps if self.number_of_reps else self.exercise.number_of_reps
         optional_label = 'optional' if self.optional else 'required'
-        return mark_safe('{} per day with {} reps. This exercise is <u>{}</u>.'.format(self.count, reps, optional_label))
+        return mark_safe('{} per day with {} reps. This exercise is <u>{}</u>.'.format(self.count, self.reps, optional_label))
 
     class Meta:
         ordering = ('order', 'exercise__name')
@@ -120,11 +123,15 @@ class ExerciseRecord(BaseModel):
     def natural_date(self):
         return '<span>{}</span><span>{}</span>'.format(
             self.start.date(),
-            date_fmt(self.start, 'm F jS'))
+            date_fmt(self.start, 'F jS'))
 
     @property
     def completed_time(self):
         return self.end - self.start
+
+    @property
+    def percentage(self):
+        return (self.count / self.exercise.reps) * 100
 
     def __unicode__(self):
         return '{} - {} in {} on {}'.format(self.exercise, self.count, self.completed_time, self.start)
