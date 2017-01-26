@@ -8,7 +8,7 @@
     <h1>Treatment plans</h1>
   </div>
   <div class="col-md-6 text-xs-right">
-    <h2><a class="btn btn-success" href="{% url 'admin:exercise_plan_add' %}" target="_blank">Create</a></h2>
+    <h2><a class="btn btn-primary" href="{% url 'admin:exercise_plan_add' %}" target="_blank">Create</a></h2>
   </div>
 
   <div class="col-md-12">
@@ -39,7 +39,7 @@
       <tbody>
       {% for plan in object_list %}
         <tr>
-          <td><a href="{% url 'plans-detail' plan.id %}">{{ plan.id|stringformat:"03d" }}</a></td>
+          <td><a class="btn btn-primary" href="{% url 'plans-detail' plan.id %}">{{ plan.id|stringformat:"03d" }}</a></td>
           <td>{{ plan.name }}</td>
           <td>{{ plan.status }}</td>
           <td>{{ plan.therapist }}</td>

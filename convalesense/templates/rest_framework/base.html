@@ -4,6 +4,22 @@
 {% block bootstrap_theme %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/project.css' %}" type="text/css">
+    <style type="text/css">
+      * {
+        color: black !important;
+        font-family: Courier !important;
+        background: white !important;
+      }
+      .navbar, #djDebugToolbarHandle {
+        display: none !important;
+      }
+      .btn {
+        color: black !important;
+      }
+      input, textarea {
+        border: solid 1px black !important;
+      }
+    </style>
 {% endblock %}
 
 {% block branding %}

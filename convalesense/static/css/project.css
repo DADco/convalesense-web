@@ -27,6 +27,9 @@
 .bg-inverse {
   background-color: #ef6962 !important; }
 
+a, a:hover, a:visited {
+  color: #991610; }
+
 #dad_logo_api {
   float: left;
   height: 25px;
@@ -63,11 +66,14 @@ body {
     background-color: #ef6962; }
 
 .btn-primary {
-  background-color: #ef6962;
-  border-color: #ea3d34; }
+  background-color: #50E3C2;
+  border-color: #24dcb3;
+  color: white !important;
+  cursor: pointer; }
 
-a, a:hover, a:visited {
-  color: #991610; }
+.btn-primary:hover {
+  background-color: #1cb18f;
+  border-color: #1cb18f; }
 
 text > tspan:nth-child(1) {
   display: none; }
@@ -78,5 +84,8 @@ text > tspan:nth-child(1) {
 .exercise-report {
   margin-top: 2em; }
 
-h2 a.btn-success {
+a.btn-success, a.btn-info, a.btn-warning {
   color: white; }
+
+a.btn-info {
+  background-color: #50E3C2; }

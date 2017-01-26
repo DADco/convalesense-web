@@ -14,6 +14,7 @@ $pink: #ef6962;
 $dark-pink: #eed3d7;
 $red: #b94a48;
 $dad-blue: #101125;
+$dad-cyan: #50E3C2;
 
 ////////////////////////////////
 		//Alerts//
@@ -77,6 +78,11 @@ $dad-blue: #101125;
 }
 
 
+a, a:hover, a:visited {
+  color: darken($pink, 33%);
+}
+
+
 #dad_logo_api {
   float: left;
   height: 25px;
@@ -125,14 +131,16 @@ body {
 
 
 .btn-primary {
-  background-color: $pink;
-  border-color: darken($pink, 10%);
+  background-color: $dad-cyan;
+  border-color: darken($dad-cyan, 10%);
+  color: white !important;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-color: darken($dad-cyan, 20%);
+  border-color: darken($dad-cyan, 20%);
 }
 
-
-a, a:hover, a:visited {
-  color: darken($pink, 33%);
-}
 
 
 text > tspan:nth-child(1) {
@@ -148,6 +156,10 @@ text > tspan:nth-child(1) {
   margin-top: 2em;
 }
 
-h2 a.btn-success {
+a.btn-success, a.btn-info, a.btn-warning {
   color: white;
+}
+
+a.btn-info {
+  background-color: $dad-cyan;
 }
