@@ -262,3 +262,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+
+ALLOWED_HOSTS = ['172.16.8.24', ]

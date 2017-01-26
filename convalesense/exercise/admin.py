@@ -5,12 +5,26 @@ from .models import Exercise, Plan, UserSession
 
 
 class BaseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('pk', 'created_at')
 
 
 class ExerciseAdmin(BaseAdmin):
-    pass
-
+    list_display = BaseAdmin.list_display + ('name', 'type_of_game')
+    list_filter = ('type_of_game', )
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'type_of_game')
+        }),
+        ('Common', {
+            'fields': ('number_of_reps', 'score',),
+        }),
+        ('Duration games', {
+            'fields': ('duration',),
+        }),
+        ('Distance games', {
+            'fields': ('distance',),
+        }),
+    )
 
 class PlanAdmin(BaseAdmin):
     pass

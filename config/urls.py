@@ -19,13 +19,11 @@ urlpatterns = [
     url(r'^users/', include('convalesense.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
 
-    # API
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-
     # Your stuff: custom urls includes go here
-
+    url(r'^api/', include('convalesense.exercise.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
