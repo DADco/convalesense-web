@@ -56,7 +56,7 @@ class PlanExerciseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PlanExercise
         fields = ('id', 'url', 'order', 'count', 'name', 'type', 'score',
-                  'distance', 'repetitions', 'weight', 'duration', 'description')
+                  'distance', 'repetitions', 'weight', 'duration', 'description', 'guidelines')
 
     def get_type(self, obj):
         return obj.exercise.get_type_of_exercise_display().lower()

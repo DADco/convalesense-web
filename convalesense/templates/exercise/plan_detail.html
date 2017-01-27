@@ -83,7 +83,7 @@
 
           {% for record in group.list %}
           <tr>
-            <td class="text-xs-left">{{ record.start|date:'h:m:s ' }}</td>
+            <td class="text-xs-left">{{ record.start|date:'h:i:s' }}</td>
             <td class="text-xs-center">{{ record.completed_time }}</td>
             <td class="text-xs-center">{{ record.count }}</td>
             <td class="text-xs-right">

@@ -122,7 +122,7 @@ class PlanExercise(AbstractExercise):
     @property
     def guidelines(self):
         optional_label = 'optional' if self.optional else 'required'
-        return mark_safe('{} per day with {} reps. This exercise is <u>{}</u>.'.format(self.count, self.reps, optional_label))
+        return mark_safe('{} per day with {} reps. This exercise is {}.'.format(self.count, self.reps, optional_label))
 
     class Meta:
         ordering = ('order', 'exercise__name')

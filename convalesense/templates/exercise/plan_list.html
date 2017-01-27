@@ -41,7 +41,7 @@
         <tr>
           <td><a class="btn btn-primary" href="{% url 'plans-detail' plan.id %}">{{ plan.id|stringformat:"03d" }}</a></td>
           <td>{{ plan.name }}</td>
-          <td>{{ plan.status }}</td>
+          <td>{{ plan.start|date }} &mdash; {{ plan.end|date }}</td>
           <td>{{ plan.therapist }}</td>
           <td>{{ plan.patient }}</td>
           <td><span class="btn {% if plan.exercises.count == 0 %}btn-danger{% else %}btn-success{% endif%}">{{ plan.exercises.count }}</span></td>
