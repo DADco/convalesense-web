@@ -6,13 +6,17 @@ from ..users.models import User
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api:user-detail')
     type = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ('id', 'url', 'username', 'type')
+        fields = ('id', 'url', 'username', 'name', 'type')
 
     def get_type(self, obj):
         return obj.get_type_display().lower()
+
+    def get_name(self, obj):
+        return obj.get_full_name()
 
 
 class UserViewSet(viewsets.ModelViewSet):
