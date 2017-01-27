@@ -105,8 +105,20 @@ class PlanSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlanViewSet(viewsets.ModelViewSet):
-    queryset = Plan.objects.all()
     serializer_class = PlanSerializer
+
+    def get_queryset(self):
+        is_android = self.request.GET.get('android', None) is not None
+        is_ios = self.request.GET.get('ios', None) is not None
+
+        if is_android:
+            qs = Plan.objects.filter(tag='a')
+        elif is_ios:
+            qs = Plan.objects.filter(tag='i')
+        else:
+            qs= Plan.objects.all()
+
+        return qs
 
 
 class ExerciseRecordSerializer(serializers.HyperlinkedModelSerializer):

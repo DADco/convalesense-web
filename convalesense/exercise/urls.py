@@ -7,7 +7,7 @@ from .serializers import (ExerciseViewSet, PlanViewSet, UserViewSet,
 
 router = routers.DefaultRouter()
 router.register(r'exercises', ExerciseViewSet)
-router.register(r'plans', PlanViewSet)
+router.register(r'plans', PlanViewSet, base_name='plan')
 router.register(r'users', UserViewSet)
 router.register(r'plan-exercises', PlanExerciseViewSet)
 router.register(r'exercise-records', ExerciseRecordViewSet)
