@@ -9,6 +9,10 @@ from .models import Plan, ExerciseRecord, Exercise, PlanExercise
 class DashboardView(TemplateView):
     template_name = 'exercise/dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        ctx = super(DashboardView, self).get_context_data(**kwargs)
+        return ctx
+
 
 class PlanListView(ListView):
     model = Plan
