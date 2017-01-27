@@ -69,7 +69,7 @@ class PlanExerciseSerializer(serializers.HyperlinkedModelSerializer):
     def get_duration(self, obj):
         if obj.duration:
             return obj.duration
-        return obj.exercise.weight
+        return obj.exercise.duration
 
     def get_distance(self, obj):
         if obj.distance:
