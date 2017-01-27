@@ -11,7 +11,8 @@ class BaseAdmin(SummernoteModelAdmin):
 
 
 class PlanExerciseAdmin(BaseAdmin):
-    pass
+    list_display = ('id', 'exercise', 'created_at', 'plan')
+    list_filter = ('plan', 'exercise')
 
 
 class PlanExerciseInline(admin.StackedInline):

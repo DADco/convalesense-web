@@ -6,7 +6,7 @@
   {% for exercise in object_list %}
     <div class="col-md-4">
 
-      <div class="alert alert-success exercise-box" style="{% if exercise.image %}background-image: url({{ exercise.image.url }});{% endif %}">
+      <div class="alert alert-info exercise-box" style="{% if exercise.image %}background-image: url({{ exercise.image.url }});{% endif %}">
         <h2>{{ exercise.name }}</h2>
 
         <div class="description">
@@ -22,7 +22,7 @@
         <table class="table">
           <tr>
             <td>In plans</td>
-            <td>{{ exercise.plan_count }}</td>
+            <td>{{ exercise.plan_set.count }}</td>
           </tr>
           <tr>
             <td>Records</td>

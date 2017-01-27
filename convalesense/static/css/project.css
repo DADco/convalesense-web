@@ -99,6 +99,10 @@ a.btn-info {
 .exercise-box {
   height: 300px;
   overflow: scroll; }
+  .exercise-box h2 {
+    background-color: white; }
+  .exercise-box table.table {
+    background-color: rgba(255, 255, 255, 0.66); }
   .exercise-box .description {
     height: 50px;
     overflow: scroll; }

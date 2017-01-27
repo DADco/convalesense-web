@@ -59,13 +59,8 @@ class Exercise(AbstractExercise):
     type_of_exercise.help_text = 'Particular game type - this determines what is presented back to the users app'
     image = models.ImageField(upload_to='images', blank=True, null=True)
 
-    def plan_count(self):
-        import random
-        return random.randint(10, 100)
-
     def record_count(self):
-        import random
-        return random.randint(10, 100)
+        return sum([plan.record_count for plan in self.plan_set.all()])
 
     def __unicode__(self):
         return self.name
