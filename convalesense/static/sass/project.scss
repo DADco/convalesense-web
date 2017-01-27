@@ -137,8 +137,8 @@ h1, .nav-link {
 
 
 .btn-primary {
-  background-color: $dad-cyan;
-  border-color: darken($dad-cyan, 10%);
+  background-color: $dad-cyan !important;
+  border-color: darken($dad-cyan, 10%) !important;
   color: white !important;
   cursor: pointer;
 }

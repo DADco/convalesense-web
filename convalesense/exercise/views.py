@@ -32,12 +32,15 @@ class PlanDetailView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(PlanDetailView, self).get_context_data(**kwargs)
 
+        chart_type = self.request.GET.get('chart_type', 'column')
+
         exercises = self.get_object().planexercise_set.all()
         if exercises.count() == 0:
             return ctx
 
         data_series = []
         for plan_exercise in exercises:
+            print "    COUNT IS ", ExerciseRecord.objects.filter(exercise=plan_exercise).count()
             data_series.append({
                     'options': {
                         'source': ExerciseRecord.objects.filter(exercise=plan_exercise)
@@ -62,7 +65,7 @@ class PlanDetailView(DetailView):
                 series_options = [
                     {
                         'options': {
-                            'type': 'column',
+                            'type': chart_type,
                             'stacking': True
                         },
                         'terms': chart_terms,
@@ -70,7 +73,7 @@ class PlanDetailView(DetailView):
                 ],
                 chart_options = {
                     'title': {'text': 'Patient progress over time'},
-                    'xAxis': {'title': {'text': 'Date'}, 'type': 'datetime', 'dateTimeLabelFormats': {'day': '%b %e'}},
+                    'xAxis': {'title': {'text': 'Date'}, 'type': 'datetime'},
                 }
             )
 

@@ -72,8 +72,8 @@ h1, .nav-link {
   margin-top: 8px; }
 
 .btn-primary {
-  background-color: #50E3C2;
-  border-color: #24dcb3;
+  background-color: #50E3C2 !important;
+  border-color: #24dcb3 !important;
   color: white !important;
   cursor: pointer; }
 

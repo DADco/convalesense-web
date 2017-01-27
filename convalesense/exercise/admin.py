@@ -60,7 +60,7 @@ class PlanAdmin(BaseAdmin):
 
 
 class ExerciseRecordAdmin(BaseAdmin):
-    pass
+    list_display = ('id', 'created_at', 'exercise')
 
 
 admin.site.register(Exercise, ExerciseAdmin)

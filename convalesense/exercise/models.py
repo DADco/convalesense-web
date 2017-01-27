@@ -85,6 +85,9 @@ class Plan(BaseModel):
     end.help_text = 'When this treatment plan ends, if at all'
     image = models.ImageField(upload_to='images', blank=True, null=True)
 
+    class Meta:
+        ordering = ('start', '-updated_at')
+
     @property
     def record_count(self):
         return sum([ex.exerciserecord_set.count() for ex in self.planexercise_set.all()])
@@ -122,7 +125,20 @@ class PlanExercise(AbstractExercise):
     @property
     def guidelines(self):
         optional_label = 'optional' if self.optional else 'required'
-        return mark_safe('{} per day with {} reps. This exercise is {}.'.format(self.count, self.reps, optional_label))
+
+        plural = 's'
+        if self.count == 1:
+            plural = ''
+
+        if self.weight:
+            prefix = 'Lift a {}kg weight '.format(self.weight)
+        elif self.exercise.weight:
+            prefix = 'Lift a {}kg weight '.format(self.exercise.weight)
+        else:
+            prefix = ''
+
+        return mark_safe('{}{} time{} per day with {} reps per session. This exercise is {}.'.format(
+                prefix, self.count, plural, self.reps, optional_label))
 
     class Meta:
         ordering = ('order', 'exercise__name')

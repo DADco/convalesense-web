@@ -3,6 +3,12 @@
 {% block content %}
 
 <div class="row">
+
+  <div class="col-md-12">
+    <h2>Existing exercises</h2>
+    <p>Each exercise is immediately available to be added to patient plans.</p>
+  </div>
+
   {% for exercise in object_list %}
     <div class="col-md-4">
 
@@ -36,6 +42,12 @@
 
     </div>
   {% endfor %}
+</div>
+
+<div class="row">
+  <div class="col-md-12 text-xs-center">
+    <h2><a class="btn btn-primary" href="{% url 'admin:exercise_exercise_add' %}" style="font-size: 2em;">Add New</a></h2>
+  </div>
 </div>
 
 {% endblock %}
