@@ -5,12 +5,24 @@ from django.utils.html import mark_safe
 from django.template.defaultfilters import date as date_fmt
 
 
+from .managers import EnabledManager
 from ..users.models import User
 
 
 class BaseModel(models.Model):
+    TAG_CHOICES = (
+        ('a', 'Android'),
+        ('i', 'iOS')
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    enabled = models.BooleanField(default=True)
+
+    tag = models.CharField(max_length=1, choices=TAG_CHOICES, blank=True, null=True)
+    tag.help_text = 'Used to filter this to a particular platform if required (for Demo)'
+
+    published = EnabledManager()
+    objects = models.Manager()
 
     class Meta:
         abstract = True
@@ -45,6 +57,15 @@ class Exercise(AbstractExercise):
     steps.help_text = 'If you would like to add a step by step guide for this exercise list it here'
     type_of_exercise = models.CharField(choices=EXERCISE_TYPES, max_length=1)
     type_of_exercise.help_text = 'Particular game type - this determines what is presented back to the users app'
+    image = models.ImageField(upload_to='images', blank=True, null=True)
+
+    def plan_count(self):
+        import random
+        return random.randint(10, 100)
+
+    def record_count(self):
+        import random
+        return random.randint(10, 100)
 
     def __unicode__(self):
         return self.name
@@ -67,6 +88,7 @@ class Plan(BaseModel):
     start.help_text = 'When this treatment plan begins'
     end = models.DateTimeField(blank=True, null=True)
     end.help_text = 'When this treatment plan ends, if at all'
+    image = models.ImageField(upload_to='images', blank=True, null=True)
 
     @property
     def record_count(self):
@@ -92,6 +114,7 @@ class PlanExercise(AbstractExercise):
     count.help_text = 'How many times this exercise should be done per day'
     optional = models.BooleanField(default=False)
     optional.help_text = 'Whether or not this exercise is a required part of the plan for completeness'
+    image = models.ImageField(upload_to='images', blank=True, null=True)
 
     @property
     def name(self):
@@ -118,6 +141,9 @@ class ExerciseRecord(BaseModel):
     count = models.PositiveSmallIntegerField()
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    class Meta:
+        ordering = ('-updated_at', '-created_at')
 
     @property
     def natural_date(self):

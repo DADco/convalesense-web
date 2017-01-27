@@ -128,3 +128,6 @@ class ExerciseRecordViewSet(viewsets.ModelViewSet):
     queryset = ExerciseRecord.objects.all()
     serializer_class = ExerciseRecordSerializer
 
+    # def create(self, request):
+    #     import ipdb; ipdb.set_trace()
+    #     return super(ExerciseRecordViewSet, self).create(request)

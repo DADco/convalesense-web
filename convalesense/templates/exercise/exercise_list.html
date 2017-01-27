@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+  {% for exercise in object_list %}
+    <div class="col-md-4">
+
+      <div class="alert alert-success exercise-box" style="{% if exercise.image %}background-image: url({{ exercise.image.url }});{% endif %}">
+        <h2>{{ exercise.name }}</h2>
+
+        <div class="description">
+          <p>
+            {% if exercise.description %}
+              {{ exercise.description|truncatechars:50 }}
+            {% else %}
+            This exercise doesn't have a description yet!
+            {% endif %}
+          </p>
+        </div>
+
+        <table class="table">
+          <tr>
+            <td>In plans</td>
+            <td>{{ exercise.plan_count }}</td>
+          </tr>
+          <tr>
+            <td>Records</td>
+            <td>{{ exercise.record_count }}</td>
+          </tr>
+        </table>
+
+        <h3><a class="btn btn-primary" href="{% url 'admin:exercise_plan_change' exercise.pk %}" target="_blank">Edit</a></h3>
+
+      </div>
+
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

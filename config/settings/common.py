@@ -45,6 +45,7 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'django_summernote',
     'chartit',
+    'django_faker',
 )
 
 # Apps specific for this project go here.

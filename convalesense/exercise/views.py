@@ -1,11 +1,25 @@
 from django.views.generic import DetailView, ListView
+from django.views.generic import TemplateView
+
 from chartit import DataPool, Chart
 
 from .models import Plan, ExerciseRecord, Exercise, PlanExercise
 
 
+class DashboardView(TemplateView):
+    template_name = 'exercise/dashboard.html'
+
+
 class PlanListView(ListView):
     model = Plan
+
+
+class ExerciseListView(ListView):
+    model = Exercise
+
+
+class ExerciseDetailView(DetailView):
+    model = Exercise
 
 
 class PlanDetailView(DetailView):

@@ -69,10 +69,10 @@
       <table class="table">
         <thead>
           <tr>
-            <th width="25%">When</th>
-            <th width="25%">Duration</th>
-            <th width="25%">Count</th>
-            <th width="25%">Target</th>
+            <th width="25%" class="text-xs-left">When</th>
+            <th width="25%" class="text-xs-center">Duration</th>
+            <th width="25%" class="text-xs-center">Count</th>
+            <th width="25%" class="text-xs-right">Target</th>
         </thead>
         <tbody>
         {% regroup exercise.exerciserecord_set.all by start.date as records %}
@@ -83,10 +83,10 @@
 
           {% for record in group.list %}
           <tr>
-            <td>{{ record.start|date:'h:m:s ' }}</td>
-            <td>{{ record.completed_time }}</td>
-            <td>{{ record.count }}</td>
-            <td>
+            <td class="text-xs-left">{{ record.start|date:'h:m:s ' }}</td>
+            <td class="text-xs-center">{{ record.completed_time }}</td>
+            <td class="text-xs-center">{{ record.count }}</td>
+            <td class="text-xs-right">
               <span class="btn {% if record.percentage >= 80 %}btn-success{% elif record.percentage >= 50 %}btn-warning{% else %}btn-danger{% endif%}">
                 {{ record.percentage|stringformat:"0d" }}%
               </span>

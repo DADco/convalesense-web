@@ -9,6 +9,7 @@ from .models import User
 class UserAdmin(AuthUserAdmin):
     list_display = ('username', 'type', 'get_full_name', 'is_superuser')
     search_fields = ['name']
+    list_filter = ('type', 'is_staff', 'is_superuser')
 
     fieldsets = (
         (None, {'fields': ('username', 'password', 'type', 'first_name', 'last_name', 'email',

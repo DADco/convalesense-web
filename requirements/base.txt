@@ -46,3 +46,4 @@ markdown
 django-summernote
 django_chartit
 django-material
+git+git://github.com/DavidSMills/django-faker.git

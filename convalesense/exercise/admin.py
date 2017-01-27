@@ -7,7 +7,7 @@ from .models import Exercise, Plan, PlanExercise, ExerciseRecord
 
 
 class BaseAdmin(SummernoteModelAdmin):
-    list_display = ('id', 'created_at')
+    list_display = ('id', 'created_at', 'tag')
 
 
 class PlanExerciseAdmin(BaseAdmin):
@@ -21,7 +21,7 @@ class PlanExerciseInline(admin.StackedInline):
             'fields': ('exercise', 'order', 'count')
         }),
         ('Extra information for the patient', {
-            'fields': ('additional_description', )
+            'fields': ('additional_description', 'image')
         }),
         ('Customization of this exercise', {
             'fields': ('number_of_reps', 'distance',  'duration', 'score', 'weight'),
@@ -35,7 +35,7 @@ class ExerciseAdmin(BaseAdmin):
     list_display_links = ('id', 'name')
     fieldsets = (
         (None, {
-            'fields': ('name', 'type_of_exercise')
+            'fields': ('name', 'type_of_exercise', 'image', 'tag')
         }),
         ('Guidance', {
             'fields': ('description', 'steps'),
