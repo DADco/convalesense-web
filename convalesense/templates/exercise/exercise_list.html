@@ -12,7 +12,7 @@
         <div class="description">
           <p>
             {% if exercise.description %}
-              {{ exercise.description|truncatechars:50 }}
+              {{ exercise.description|truncatechars:80 }}
             {% else %}
             This exercise doesn't have a description yet!
             {% endif %}
