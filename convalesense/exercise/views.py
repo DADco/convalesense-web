@@ -38,16 +38,20 @@ class PlanDetailView(DetailView):
         if exercises.count() == 0:
             return ctx
 
+        from django.db.models import Sum, F
+
         data_series = []
         for plan_exercise in exercises:
-            print "    COUNT IS ", ExerciseRecord.objects.filter(exercise=plan_exercise).count()
+            start_key = 'start_{}'.format(plan_exercise.pk)
+            count_key = '{}'.format(plan_exercise.name)
+
             data_series.append({
                     'options': {
                         'source': ExerciseRecord.objects.filter(exercise=plan_exercise)
                     },
                     'terms': [
-                        {'start_{}'.format(plan_exercise.pk): 'natural_date'},
-                        {'{}'.format(plan_exercise.name): 'count'},
+                        {start_key: 'natural_date'},
+                        {count_key: 'count'},
                     ]
                 })
 
